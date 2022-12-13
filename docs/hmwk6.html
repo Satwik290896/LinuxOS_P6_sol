@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>W4118 Fall 2022 - Homework 6</title>
+    <style type="text/css">
+        body {
+            background-color: #fff;
+            width: 7.5in;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        h1 {
+            color: black;
+            font-size: 1.75em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        h2.hmwk {
+            color: black;
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        h2.ud {
+            color: red;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        h2.due {
+            color: red;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        h3 {
+            color: black;
+            font-size: 1.1em;
+            text-decoration: underline;
+            text-align: left;
+
+        }
+
+        h4 {
+            color: #111;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        p {
+            text-indent: 0;
+            padding-left: 0.1em;
+            text-align: left;
+        }
+
+        li {
+            padding-top: 0.7em;
+            margin-left: 1em;
+            padding-left: 0.1em;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #22b;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            font-weight: bold;
+            color: #b22;
+        }
+
+        .icmd {
+            font-family: monospace;
+            font-size: 0.85em;
+            font-weight: normal;
+            background-color: #eee;
+        }
+
+        .cmd {
+            font-family: monospace;
+            font-size: 0.85em;
+            font-weight: normal;
+            border: 2px dashed #222;
+            background-color: #ddd;
+            padding: 1em;
+            margin: 0.3em auto 0.3em 0.1em;
+            display: block;
+            clear: both;
+        }
+
+        pre {
+            border: 2px dashed #c88;
+            background-color: #ecc;
+            padding: 1.2em;
+            margin: 0.5em auto 0.5em 1em;
+            clear: both;
+        }
+
+        .update {
+            color: #f00;
+            font-size: 1.01em;
+        }
+
+        .update:hover {
+            color: #000;
+        }
+
+        .update:hover .old {
+            display: inline;
+            padding-left: 0.2em;
+            padding-right: 0.2em;
+        }
+
+        .update .old {
+            color: #f0f;
+            text-decoration: line-through;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Homework 6</h1>
+<h2 class="hmwk">W4118 Fall 2022</h2>
+<h2 class="due">DUE: Monday 12/12/2022 at 11:59pm EST</h2>
+<p>
+All homework submissions are to be
+    made via <a href="http://git-scm.com/">Git</a>.
+    You must submit a detailed list of references as part your homework submission indicating clearly what sources you
+    referenced for each homework problem. You do not need to cite the course textbooks and instructional staff. All
+    other sources must be cited.
+    Please
+edit and include this <a href="references.txt">file</a> in the top-level
+directory of your homework submission.  Homeworks submitted without
+this file will not be graded.
+    Be aware that commits pushed after the deadline will not be considered. Refer to the
+    homework policy section on the <a href="http://www.cs.columbia.edu/%7Enieh/teaching/w4118">class web site</a> for
+    further details.
+</p>
+<h3>Group Programming Problems:</h3>
+<p>
+
+
+  Group programming problems are to be done in your assigned 
+    <a href="https://docs.google.com/spreadsheets/d/10auYVZMD8ML4fJZDQ6J4XsBqNCCgF1psDuqF8Bu11rU/edit#gid=1383649722">groups</a>.
+    The Git repository your entire group will use to submit the group programming problems can be cloned using:
+    <span class="cmd">git clone git@github.com:W4118/f22-hmwk6-teamN.git</span>
+    This repository will be accessible to all members of your team, and all team members are expected to commit (local)
+    and push (update the server) changes/contributions to the repository equally. You should become familiar with
+    team-based shared repository Git commands such as <span class="icmd">git-pull</span>,
+    <span class="icmd">git-merge</span> and <span class="icmd">git-fetch</span>. 
+</p>
+<p>
+    All team members should make at least <i>five</i> commits to the team's Git repository. The point is to make
+    incremental changes and use an iterative development cycle. Follow the
+    <a href="https://www.kernel.org/doc/html/latest/process/coding-style.html">Linux kernel coding style</a> and check
+    your commits with the latest version of
+    <a href="https://github.com/torvalds/linux/blob/master/scripts/checkpatch.pl">checkpatch</a>. Errors or warnings
+    from the script in your submission will cause a deduction of points.
+</p>
+<p>
+      For students on Arm Mac computers (e.g. with M1 or M2 CPU): if you want
+      your submission to be built/tested for Arm, you must create and submit a
+      file called <tt>.armpls</tt> in the top-level directory of your repo; feel
+      free to use the following one-liner:
+      <span class="cmd"
+        >cd "$(git rev-parse --show-toplevel)" && touch .armpls && git add
+        .armpls && git commit -m "Arm pls"</span>
+      You should do this first so that this file is present in any code you
+      submit for grading.
+</p>
+    <p>
+      For all programming problems you should submit your source code as well as
+      a README file documenting your files and code. Please do NOT submit kernel
+      images. The README should explain any way in which your solution differs
+      from what was assigned, and any assumptions you made. You are welcome to
+      include a test run in your README showing how your file system works. 
+        For this assignment, the README should explicitly state which parts of 
+        the file system assignment were completed successfully and which parts
+        are not functional.
+       It should also state explicitly how each group member contributed to the
+      submission. Finally, since this is the last assignment of the semester, EACH group
+        member should indicate in the README two important pieces of information: 
+        (1) the number of hours spent on this assignment, and
+        (2) a rank ordering of the difficulty of the homework assignments.
+        For example, 
+        <pre>abc123: 15hrs, hmwk1 &lt hmwk2 &lt hmwk4 &lt hmwk6 &lt hmwk5 &lt hmwk3</pre>
+        would indicate that student
+        with UNI abc123 spent 15 hrs on this assignment and that hmwk1 was the easiest and
+        hmwk3 was the hardest.
+        <b>5% of the grading points for this assignment will be allocated to the README.</b>
+        The README should be placed in the top level directory of the
+      <span class="icmd">test</span> branch of your team repo.
+    </p>
+    In this assignment, you will write your own disk-based file system, EZFS.  You will learn how to use a loop device to turn a regular file into a block storage device, then format that device into an EZFS file system.  Then you will use EZFS to access the file system.  EZFS will be built as a kernel module that you can load into the <b>stock Debian 11.4 kernel</b> in your VM.  You do not need to use the 4118 kernel you built for previous homework assignments and there is no need to build the entire Linux kernel tree for this assignment.
+
+    <ol>
+    <li>
+      <a name="p1">Formatting and mounting a disk.</a>
+
+A loop device is a pseudo-device that makes a file accessible as a
+block device.  Files of this kind are often used for CD ISO
+images. Mounting a file containing a file system via such a loop mount
+makes the files within that file system accessible.  You will do this
+with EZFS, but to first gain some experience with a loop device, the
+following gives you a sample session for creating a loop device and
+building and mounting an ext2 file system on it.  This session starts
+from the home directory of a user zzj.  You should read man pages and
+search the Internet so you can understand what is going on at each step.
+<pre>      
+        $ sudo su
+        # dd if=/dev/zero of=./ext2.img bs=1024 count=100
+        100+0 records in
+        100+0 records out
+        102400 bytes (102 kB, 100 KiB) copied, 0.000600037 s, 171 MB/s
+        # modprobe loop
+        # losetup --find --show ext2.img
+        /dev/loop0
+        # mkfs -t ext2 /dev/loop0
+        mke2fs 1.44.5 (15-Dec-2018)
+        Creating filesystem with 100 1k blocks and 16 inodes
+
+        Allocating group tables: done                            
+        Writing inode tables: done                            
+        Writing superblocks and filesystem accounting information: done
+
+        # mkdir mnt
+        # mount /dev/loop0 ./mnt
+        # df -hT
+        Filesystem     Type      Size  Used Avail Use% Mounted on
+        ...
+        /dev/loop0     ext2       93K   14K   74K  16% /root/mnt
+        # cd mnt
+        # ls -al
+        total 17
+        drwxr-xr-x  3 root root  1024 Apr 21 02:22 .
+        drwxr-xr-x 37 zzj zzj  4096 Apr 21 02:22 ..
+        drwx------  2 root root 12288 Apr 21 02:22 lost+found
+        # mkdir sub2
+        # ls -al
+        total 18
+        drwxr-xr-x  4 root root  1024 Apr 21 02:23 .
+        drwxr-xr-x 37 zzj zzj  4096 Apr 21 02:22 ..
+        drwx------  2 root root 12288 Apr 21 02:22 lost+found
+        drwxr-xr-x  2 root root  1024 Apr 21 02:23 sub2
+        # cd sub2
+        # ls -al
+        total 2
+        drwxr-xr-x 2 root root 1024 Apr 21 02:23 .
+        drwxr-xr-x 4 root root 1024 Apr 21 02:23 ..
+        # mkdir sub2.1
+        # ls -al
+        total 3
+        drwxr-xr-x 3 root root 1024 Apr 21 02:24 .
+        drwxr-xr-x 4 root root 1024 Apr 21 02:23 ..
+        drwxr-xr-x 2 root root 1024 Apr 21 02:24 sub2.1
+        # touch file2.1
+        # ls -al
+        total 3
+        drwxr-xr-x 3 root root 1024 Apr 21 02:24 .
+        drwxr-xr-x 4 root root 1024 Apr 21 02:23 ..
+        -rw-r--r-- 1 root root    0 Apr 21 02:24 file2.1
+        drwxr-xr-x 2 root root 1024 Apr 21 02:24 sub2.1
+        # cd ../../
+        # umount mnt/
+        # losetup --find
+        /dev/loop1
+        # losetup --detach /dev/loop0
+        # losetup --find
+        /dev/loop0
+        # ls -al mnt/
+        total 8
+        drwxr-xr-x  2 root root 4096 Apr 21 02:22 .
+        drwxr-xr-x 37 zzj zzj 4096 Apr 21 02:22 ..
+</pre>
+In the sample session shown above, files and directories are created.
+Make sure you see the number of links each file or directory has, and
+make sure you understand why.
+    </li>
+
+    <li>
+      <a name="p1">Exploring EZFS.</a>
+
+Now that you understand how to use a loop device, mount a
+loop device and format it as EZFS.  To do the latter, we have
+provided you with source code for an EZFS formatting program.  
+First create a disk image and assign it to a loop device:
+<pre>
+        $ dd bs=4096 count=400 if=/dev/zero of=~/ez_disk.img
+        # losetup --find --show ~/ez_disk.img
+</pre>
+This will create the file <span class="icmd">ez_disk.img</span> and
+bind it to an available loop device,
+probably <span class="icmd">/dev/loop0</span>.
+Now, <span class="icmd">/dev/loop0</span> can be used as if 
+it were a physical disk, and the data backing it will be stored in
+<span class="icmd">ez_disk.img</span>.
+<p>
+Now format the disk as EZFS.  The skeleton code for a formatting
+utility program is in <span class="icmd">format_disk_as_ezfs.c</span>.
+Compile it, then run it:
+<pre>
+        # ./format_disk_as_ezfs /dev/loop<N>
+</pre>    
+We have provided you with reference kernel modules that implement EZFS
+which are designed to work with your stock Debian 11 kernel
+(<span class="icmd">5.10.0-17-amd64</span>
+and <span class="icmd">5.10.0-17-arm64</span>). 
+x86 and arm
+kernel modules are in <span class="icmd">ref/ez-x86.ko</span>
+and <span class="icmd">ref/ez-arm.ko</span>, respectively.  
+You should familiarize yourself with writing and using 
+<a href="https://urldefense.proofpoint.com/v2/url?u=https-3A__cs4118.github.io_dev-2Dguides_linux-2Dmodules.html&amp;d=DwMCAg&amp;c=009klHSCxuh5AI1vNQzSO0KGjl4nbi2Q0M1QLJX9BeE&amp;r=H6PC5IcyoaM-twPiobpBh4OpOvn7-WWzKWIwtE39QNw&amp;m=n0g_y4_nzzxghCTkfv1oL7Ce0xiU6Pch76E0bB48D5AXhqfSJinPIscjiKEwrPJY&amp;s=OjNUEkZG-L-R4JkPKT4-I4EICd5CHopecymnMpQrrPI&amp;e=">Linux
+kernel modules</a>.  You can use the reference kernel module to
+explore your newly created EZFS by mounting the disk and loading the
+kernel module:
+<pre>
+        # mkdir /mnt/ez
+        # insmod ezfs-ARCH.ko
+        # mount -t ezfs /dev/loop<N> /mnt/ez
+</pre>
+where ARCH is either x86 or arm.  Now you can create some new files,
+edit <span class="icmd">hello.txt</span>, etc. 
+If your kernel name is slightly different
+(e.g. <span class="icmd">5.10.0-18-amd64</span>), you may get a 
+versioning error when you try to load the kernel module. In that case,
+you can try forcibly inserting the module with 
+<span class="icmd">insmod -f</span>.
+    </li>
+    <li>
+      <a name="p1">Changing the formatting program.</a>
+The formatting utility creates the new file system's root directory and places
+<span class="icmd">hello.txt</span> in that directory.  You can think
+of the formatting utility as statically creating the file system on a disk.
+You will first create directories and files by modifying the
+formatting utility, as this will help you later to
+figure out what EZFS must do to perform these file system operations.
+Start by reviewing the EZFS
+<a href="ezfs-spec.pdf">specification</a>, then read the formatting
+utility source code <span class="icmd">format_disk_as_ezfs.c</span>.
+Make sure you understand the on-disk format and what each line
+contributes toward creating the file system.  
+<b>A key simplifying concept in EZFS
+is how file data is stored, specifically directories are limited to one block in size
+and regular files may use multiple blocks but the blocks used for storing
+the data for a given file must be contiguous.</b>
+<p>
+Now extend the formatting utility program to create a subdirectory
+called <span class="icmd">subdir</span>. The directory 
+should contain <span class="icmd">names.txt</span> that lists the
+names of your team members, <span class="icmd">big_img.jpeg</span>,
+and <span class="icmd">big_txt.txt</span>. The latter two files are in
+your repo subdirectory <span class="icmd">big_files</span>.
+<span class="icmd">names.txt</span> should be stored in
+data block number 5, 
+<span class="icmd">big_img.jpeg</span> in data block numbers 6-13, and
+<span class="icmd">big_txt.txt</span> in data block numbers 14-15.
+Be sure to set the directories' link counts correctly.
+<p>
+Create and format a new disk using your modified program. Use the
+reference EZFS kernel module provided to verify that the new files and
+directory were created correctly. You can use
+the <span class="icmd">stat</span> command to 
+see the size, inode number, and other properties.
+    </li>
+    <li>
+      <a name="p1">Initializing and mounting the file system.</a>
+Now that you understand how to manually add files to your file system via
+your formatting utility, you will now write a file system to allow you to use
+standard file commands mount the file system, list directories, read files, modify
+existing files, create new files, delete files, and even create and remove
+directories.  The rest of this assignment is structured to guide you toward
+incrementally implementing your file system functionality.  In some cases, you
+may find that what you implemented is correct enough to get some piece of functionality working, 
+but may not be completely correct such that some later functionality that depends on it ends up not working.
+Keep that in mind during your debugging.
+Here are some resources that might be useful, though keep in mind that some of the
+information contained therein may be out of date:
+<ul>
+    <li>LKD chapter 13</li>
+    <li>LKD chapter 14: pages 289 - 294</li>
+    <li>LKD chapter 16: pages 326 - 331</li>
+    <li><a href="http://martin.hinner.info/fs/bfs/bfs-structure.html">BFS filesystem</a>: <a href="https://elixir.bootlin.com/linux/v5.10.138/source/fs/bfs">Source Code</a></li>
+    <li><a href="page-cache-overview.pdf">Page cache overview slides</a></li>
+    <li><a href="http://www.tldp.org/LDP/lki/lki-3.html">Linux Kernel Internals chapter 3 (Virtual Filesystem)</a></li>
+    <li><a href="https://elixir.bootlin.com/linux/v5.10.138/source/Documentation/filesystems/vfs.rst">Documentation/filesystems/vfs.rst</a></li>
+    <li><a href="https://lwn.net/Articles/57369/">Linux VFS tutorial at lwn.net</a></li>
+</ul><p>
+Note that the VFS has evolved over the years and some functions exist primarily for backwards compatibility with older file
+system implementations. 
+<b>In your implementation, you should make sure to use the newer VFS interface functions discussed in class whenever possible.</b>
+As always, the best source of correct information is the source code, especially other file system implementations, some of which
+were described in class.
+<p>
+This part of the assignment focuses on writing
+the code that initializes the file system and enables mounting disks. 
+Create the basic functionality for your file system to work as a kernel module so that it can be loaded
+and unloaded from the kernel.  Then make the <span class="icmd">mount</span> and <span class="icmd">umount</span> commands work cleanly.
+We won't be reading any files or directories at this time.
+The name attribute of your <span class="icmd">struct file_system_type</span> should be <b>myezfs</b>, it's very important for grading.
+<ul>
+    Some Hints:
+    <li>Use <span class="icmd">sb_set_blocksize()</span> to ensure that the block layer reads blocks of
+    the correct size.
+    </li>
+    <li>Read the EZFS superblock and inodes. Assign them to an instance of
+    <span class="icmd">struct ezfs_sb_buffer_heads</span>. Store this struct in the <span class="icmd">s_fs_info</span>
+    member of the VFS superblock. This way, we can always find the EZFS
+    superblock and inodes by following the trail of pointers from the VFS
+    superblock. <a href="ezfs-fill-super-diagram.png">EZFS fill_super</a>
+    shows the relationship between these structs after
+    </li>
+    <li>You will have to fill out some additional members of the VFS superblock
+    structure, such as the magic number and pointer to the ops struct.
+    </li>
+    <li>Use <span class="icmd">iget_locked()</span> to create a new VFS inode for the root directory.
+    Read the kernel source to learn what this function does for you and get
+    some hints on how you're supposed to use it. The only metadata you need
+    to set is the mode. Make the root directory <span class="icmd">drwxrwxrwx</span> for now.
+    </li>
+    <li>After creating an inode for the root directory, you need to create a
+    dentry associated with it. Make the VFS superblock point to the dentry.
+    </li>
+    <li>Make sure to handle errors by returning an appropriate error code. For
+    example, what if someone asks you to mount a filesystem that isn't
+    EZFS?
+    </li>
+    <li>Remember to take care of any buffer_heads and dynamically allocated pointers.
+    </li>
+</ul>
+    </li>
+    <li>
+          <a name="p1">Listing the contents of the root directory.</a>
+In the previous part, you may have created a VFS inode without associating it with the
+corresponding EZFS inode from disk. Although this may be sufficient for <span class="icmd">mount</span>
+to work, it will not be enough to properly list the contents of the root directory.  You need to update
+your code to associate the root VFS inode with the root EZFS inode.
+Use the <span class="icmd">i_private</span> member of the VFS inode to store a pointer to the
+EZFS inode. All of the EZFS inodes live in the inode store that
+we read from disk in the previous section.
+<!--Note that you must set the <span class="icmd">i_sb</span> and <span class="icmd">i_op</span> members so that VFS can
+identify which filesystem the inode belongs to.-->
+Consult the diagram in the EZFS Specification section.
+<p>
+Now you can add support for listing the root directory. You should be able to run <span class="icmd">ls</span> and 
+<span class="icmd">ls -a</span>. Note that we do not support listing the contents of a subdirectory yet. 
+Here's sample session:
+<pre>
+        # ls /mnt/ez
+        hello.txt  subdir
+        # ls -a /mnt/ez
+        .  ..  hello.txt  subdir
+        # ls /mnt/ez/subdir
+        ls: cannot access '/mnt/ez/subdir': No such file or directory
+</pre>
+The VFS framework will call the <span class="icmd">iterate_shared</span> member of the
+<span class="icmd">struct file_operations</span>. Inside your <span class="icmd">iterate_shared</span> implementation, use
+<span class="icmd">dir_emit()</span> to provide VFS with the contents of the requested
+directory. VFS will continue to call <span class="icmd">iterate_shared</span> until your implementation
+returns without calling <span class="icmd">dir_emit()</span>.  Make sure you implement <span class="icmd">iterate_shared</span>, not
+<span class="icmd">iterate</span>, as the latter is an older interface.
+For now, you can pass in <span class="icmd">DT_UNKNOWN</span> as the <span class="icmd">type</span> argument for
+<span class="icmd">dir_emit()</span>. We will revisit this in the next part.
+You can use the <span class="icmd">ctx->pos</span> variable as a cursor to the directory entry
+that you are about to emit. 
+Note that iterating through a directory using <span class="icmd">dir_emit()</span> will list each directory
+entry contained in the directory, but what should be done to cause the <span class="icmd">.</span> and <span class="icmd">..</span> to appear in the listing?
+Some file systems accomplish this by actually storing separate entries for <span class="icmd">.</span> and <span class="icmd">..</span> so that they will
+appear just like any other entry, but other file systems do not, such as the proc file system.  Look at
+how the proc file system achieves this <a href="https://elixir.bootlin.com/linux/v5.10.138/source/fs/proc/generic.c">behavior</a>, and use a similar approach for your EZFS.
+<p>
+The following is an excerpt from the output of
+<span class="icmd">strace ls /usr/bin > /dev/null</span>:
+<pre>
+        [...]
+        openat(AT_FDCWD, "/usr/bin", O_RDONLY|O_NONBLOCK|...) = 3
+        [...]
+        getdents64(3, /* 1003 entries */, 32768) = 32744
+        [...]
+        getdents64(3, /* 270 entries */, 32768) = 8888
+        [...]
+        getdents64(3, /* 0 entries */, 32768)   = 0
+        close(3)                                = 0
+</pre>
+The <span class="icmd">ls</span> program first opens the <span class="icmd">/usr/bin</span> directory file. Then, it
+calls <span class="icmd">getdents64()</span> three times to retrieve the list of 1,273 files in
+<span class="icmd">/usr/bin</span>. Finally, <span class="icmd">ls</span> closes the directory file.
+
+Each call to <span class="icmd">getdents64()</span> will result in one call to <span class="icmd">iterate_dir()</span>,
+which in turn will call your <span class="icmd">iterate_shared</span> implementation. Consequently,
+your <span class="icmd">iterate_shared</span> implementation should call <span class="icmd">dir_emit()</span> until the given
+buffer is full.
+<p>
+Running <span class="icmd">ls -l</span> might print error messages because the <span class="icmd">ls</span> program is
+unable to <span class="icmd">stat</span> the files. This is the expected behavior for this part.
+    </li>
+    <li>
+        <a name="p1">Accessing subdirectories.</a>
+Add support for looking up filepaths.
+You should be able to <span class="icmd">cd</span> into directories and <span class="icmd">ls</span> the contents of
+directories that aren't the root. As a side effect, the <span class="icmd">-l</span> flag and <span class="icmd">stat</span> 
+command should work on both files and directories now.
+Here's a sample session:
+<pre>
+        # ls /mnt/ez/subdir
+            names.txt
+        # cd /mnt/ez/subdir
+        # stat names.txt
+          File: names.txt
+          Size: 0           Blocks: 0      IO Block: 4096   regular empty file
+        Device: 700h/1792d  Inode: 4       Links: 1
+        Access: (0000/----------)  Uid: (0 /    root)   Gid: (0 /    root)
+        Access: 2017-03-30 02:42:27.629345430 -0400
+        Modify: 2017-03-30 02:42:27.629345430 -0400
+        Change: 2017-03-30 02:42:27.629345430 -0400
+          Birth: -
+        # stat does_not_exist.txt
+        stat: cannot stat 'does_not_exist.txt': No such file or directory
+        # ls -l ..
+        total 0
+        ---------- 1 root root 0 Apr  3 23:31 hello.txt
+        d--------- 1 root root 0 Dec 31  1969 subdir
+</pre>
+<p>
+VFS does most of the heavy lifting when looking up a filepath. 
+To avoid repeated work when looking up similar paths, the kernel maintains a
+cache called the dentry cache. Learn how the dentry cache works by reading the
+materials given earlier.  A given path is split up into parts and each part is 
+looked up in the dentry cache.  If
+a part isn't in the dentry cache, the VFS will call the file system-specific
+<span class="icmd">lookup</span> function of <span class="icmd">inode_operations</span>
+to ask the file system to add it. For example, given a filepath such as
+<span class="icmd">/a/b/c/d/e/f.txt</span>, once the kernel knows 
+the inode of <span class="icmd">c</span>, it will ask 
+for the inode associated with the name <span class="icmd">d</span> in the directory <span class="icmd">c</span>. 
+If there is no matching dentry in the cache, the <span class="icmd">lookup</span> function will be called
+to retrieve the inode for <span class="icmd">d</span> from the filesystem.  Before you add
+things to the dentry cache, you are responsible for determining whether
+the given parent directory contains an entry with the given name.
+<p>
+Make sure your code returns correct metadata for all files and directories. 
+These include size, link count, timestamps, permissions, owner, and group.
+<ul>
+    <li>Test by using <span class="icmd">ls -l</span> and <span class="icmd">stat</span>.
+    </li>
+    <li>You should also pass the correct type to <span class="icmd">dir_emit()</span> in
+        <span class="icmd">ezfs_iterate()</span>. Check out this <a href="https://stackoverflow.com/questions/47078417/readdir-returning-dirent-with-d-type-dt-unknown-for-directories-and">StackOverflow post</a>
+        for why it matters. Hint: you should use <span class="icmd">S_DT()</span>.
+    </li>
+</ul>
+    </li>
+    <li>
+            <a name="p1">Reading the contents of regular files.</a>
+Add support for reading the contents of files.
+There are a number of ways to do this, but you should take advantage of 
+generic functions that are already available as part of the VFS to implement 
+<span class="icmd">read_iter</span>, not <span class="icmd">read</span>.
+For example, <span class="icmd">generic_file_read_iter</span> 
+handles complex logic to read ahead so that file blocks can be cached in memory 
+by the time they are actually needed to avoid blocking on slow I/O devices. 
+However, generic file system functions are unaware of file system-specific functionality
+for deciding what data blocks are actually associated with each file, so the job
+of the file system is to provide that information through appropriate functions
+that will be called by the generic functions.  You should read <span class="icmd">generic_file_read_iter</span> to understand
+how it interacts with <span class="icmd">address_space_operations</span> to see what functions need to be implemented.
+Hint: what is <span class="icmd">readpage</span> and how is it used?
+You may find it particularly helpful to refer to the BFS file system, specifically <a href="https://elixir.bootlin.com/linux/v5.10.138/source/fs/bfs/file.c">bfs-file.c</a>.
+<!--implement <span class="icmd">ezfs_readpage</span>.-->
+What is the functionality or magic of <span class="icmd">map_bh</span>?
+Once you have read support, you should be able to do the following:
+<pre>
+        # cat /mnt/ez/hello.txt
+        Hello world!
+        # cat /mnt/ez/subdir/names.txt
+        Emma Nieh
+        Haruki Gonai
+        Zijian Zhang
+        # dd if=/mnt/ez/hello.txt
+        Hello world!
+        0+1 records in
+        0+1 records out
+        13 bytes copied, 4.5167e-05 s, 266 kB/s
+        # dd if=/mnt/ez/hello.txt bs=1 skip=6
+        world!
+        7+0 records in
+        7+0 records out
+        7 bytes copied, 5.1431e-05 s, 117 kB/s
+</pre>
+If you try using other programs to read files, you may encounter some errors.  For example,
+ <span class="icmd">vim</span> by default places swap files in the current directory and seeks
+through them upon opening a file using <span class="icmd">llseek</span>. You may have noticed an
+error when trying to open files using <span class="icmd">vim</span> because your EZFS has no
+support for <span class="icmd">llseek</span> yet. Fix it.
+Hint: there's already a generic implementation in the kernel for <span class="icmd">llseek</span>.
+<p>
+At this point, you should stress test your EZFS implementation. The rest
+of this assignment will be easier if you can depend on the reading
+functionality to report things correctly.  Some of the things you should make sure work include:
+<ul>
+    <li>Try copying all the files out of your ez using <span class="icmd">cp</span> or <span class="icmd">rsync</span>.
+    </li>
+    <li>Extend the formatting program again to create additional files and a more
+        complex directory structure. Be sure to include different file types and larger files. For
+        example, add a small team photo to the <span class="icmd">subdir</span> directory.
+    </li>
+    <li>Overwrite the disk with random garbage from <span class="icmd">/dev/urandom</span> (instead of
+        <span class="icmd">/dev/zero</span>). Format it. After formatting, the random data should not
+        affect the normal operation of the filesystem.
+    </li>
+    <li>Write a program that requests invalid offsets when reading files or
+        iterating through directories.
+    </li>
+</ul>
+    </li>
+    <li>
+        <a name="p1">Writing to existing files.</a>
+So far, we've only been reading what's already on the filesystem. Implement functions for modifying the filesystem contents. Again,
+you should implement <span class="icmd">write_iter</span> instead of <span class="icmd">write</span>.
+<p>
+Read <span class="icmd">generic_file_write_iter</span>, try to understand how it helps us to 
+write iteratively, and find out how it interacts with <span class="icmd">address_space_operations</span>.
+Do we need to worry about changing the length of the file ourselves?  How about 
+time accounting and <span class="icmd">inode->i_blocks</span>?
+It seems that only <span class="icmd">write_begin</span> and <span class="icmd">write_end</span> are called in <span class="icmd">generic_file_write_iter</span>.
+When is <span class="icmd">writepage</span> called? What's the benefit of doing so?
+Refer to <a href="https://elixir.bootlin.com/linux/v5.10.138/source/fs/bfs/file.c">bfs-file.c</a>, 
+implement <span class="icmd">ezfs_writepage</span> and <span class="icmd">ezfs_write_begin</span>. 
+We recommend you first make sure your write functionality works for a file that requires no more than one data block for its contents.
+Test for writing the contents of files:
+<pre>
+        $ cd /mnt/ez
+        $ echo -ne "4118" | dd of=hello.txt bs=1 seek=7 conv=notrunc
+        [...]
+        $ cat hello.txt
+        Hello w4118!
+        $ echo "Greetings and salutations, w4118!" | dd of=hello.txt conv=notrunc
+        [...]
+        $ cat hello.txt
+        Greetings and salutations, w4118!
+</pre>
+Once you have the one block case working, then you should consider 
+what if the file requires more than one block.  EZFS only supports contiguous allocation of blocks to a file, so there are two cases to consider.
+Case 1: If the data block following the last existing data block of 
+this file is empty, allocate this block to it.
+<pre>
+        $ ls -al /mnt/ez
+        total 52
+        drwxrwxrwx 2 zzj zzj  4096 Nov 16 16:27 .
+        drwxrwxrwx 3 zzj zzj  4096 Nov 16 16:27 ..
+        -rw-rw-rw- 1 zzj zzj 29296 Nov 16 16:27 big_img.jpeg
+        -rw-rw-rw- 1 zzj zzj  4169 Nov 16 16:27 big_txt.txt
+        -rw-rw-rw- 1 zzj zzj    38 Nov 16 16:27 names.txt
+        $ cat /mnt/ez/subdir/big_img.jpeg >> /mnt/ez/subdir/big_txt.txt
+        $ stat /mnt/ez/subdir/big_txt.txt
+          File: /mnt/ez/subdir/big_txt.txt
+          Size: 33465       Blocks: 72         IO Block: 4096   regular file
+        Device: 700h/1792d  Inode: 6           Links: 1
+        Access: (0666/-rw-rw-rw-)  Uid: ( 1000/     zzj)   Gid: ( 1000/     zzj)
+        Access: 2022-11-16 16:27:06.297592019 -0500
+        Modify: 2022-11-16 16:30:34.084985879 -0500
+        Change: 2022-11-16 16:30:34.084985879 -0500
+          Birth: -
+        
+        # big_txt.txt's data_block_range change from [14-15] to [14-22]
+</pre>
+Case 2: Else, because files are limited to contiguous allocation of data blocks, move 
+the existing blocks along with the new block to another position so that there is enough
+space for the contiguous region of blocks.
+<pre>
+        # reformat the disk img
+        $ stat /mnt/ez/hello.txt
+          File: hello.txt
+          Size: 13          Blocks: 8          IO Block: 4096   regular file
+        Device: 700h/1792d  Inode: 2           Links: 1
+        Access: (0666/-rw-rw-rw-)  Uid: ( 1000/     zzj)   Gid: ( 1000/     zzj)
+        Access: 2022-11-16 16:39:27.672290106 -0500
+        Modify: 2022-11-16 16:39:27.672290106 -0500
+        Change: 2022-11-16 16:39:27.672290106 -0500
+          Birth: -
+        $ cat /mnt/ez/subdir/big_txt.txt >> /mnt/ez/hello.txt
+        $ stat /mnt/ez/hello.txt
+          File: /mnt/ez/hello.txt
+          Size: 4182        Blocks: 16         IO Block: 4096   regular file
+        Device: 700h/1792d  Inode: 2           Links: 1
+        Access: (0666/-rw-rw-rw-)  Uid: ( 1000/     zzj)   Gid: ( 1000/     zzj)
+        Access: 2022-11-16 16:39:27.672290106 -0500
+        Modify: 2022-11-16 16:40:34.537144143 -0500
+        Change: 2022-11-16 16:40:34.537144143 -0500
+          Birth: -
+
+        # hello.txt's data_block_range change from [3-3] to [16-17]
+</pre>
+You should also be able to edit files with the <span class="icmd">nano</span> editor, although
+it will complain about <span class="icmd">fsync()</span> not being implemented. Implement 
+<span class="icmd">ezfs_fsync</span>. You can use the Linux page cache function <span class="icmd">sync_dirty_buffer()</span> 
+to have a dirty buffer written to disk immediately.
+<p>
+Ensure that changes to the VFS inode are written back to disk. You
+should do this by implementing <span class="icmd">ezfs_write_inode()</span>. Of course, VFS
+needs to be informed that the VFS inode is out of sync with the EZFS
+inode. Test this by unmounting and remounting.
+Writing to the buffer head only changes the contents in memory. It does
+not cause those changes to be written back to disk. Be sure to take the
+appropriate measures so that your modifications are written to disk.
+<p>
+Until you introduced writing files, you were not really modifying your file system.  Now that the file system is being modified,
+you should take care to make sure that concurrent file operations are being handled properly, if you have not done so already.  For example, if two
+files are being modified at the same time, you want to make sure that you do not accidentially assign the same free data block
+to both files, which would obviously be an error.  Make sure that your EZFS operations work properly when multiple processes
+or threads are performing those operations at any given time.  Keep in mind that buffer head operations such as <span class="icmd">sb_bread</span> may block
+if they need to go to disk.  You may find it helpful to review how synchronization is handled in <a href="https://elixir.bootlin.com/linux/v5.10.138/source/fs/bfs">BFS</a>.
+    </li>
+    <li>
+        <a name="p1">Creating new files.</a>
+Implement creating new files. That is, user programs should be able to call
+<span class="icmd">open()</span> with a mode that includes <span class="icmd">O_CREAT</span>. 
+<b>Note that an empty file should have 0 data blocks.</b>
+Here's a sample session:
+<pre>
+        $ cd /mnt/ez
+        $ ls
+        hello.txt  subdir
+        $ touch world.txt
+        $ ls
+        hello.txt  subdir  world.txt
+        $ stat world.txt
+          File: world.txt
+          Size: 0           Blocks: 0      IO Block: 4096   regular empty file
+        Device: 700h/1792d  Inode: 7       Links: 1
+        Access: (0644/-rw-r--r--)  Uid: ( 1000/     zzj)   Gid: ( 1000/     zzj)
+        Access: 2022-11-16 16:51:03.287875291 -0500
+        Modify: 2022-11-16 16:51:03.287875291 -0500
+        Change: 2022-11-16 16:51:03.287875291 -0500
+          Birth: -
+        $ cat > subdir/favorite_memes.txt
+        doge
+        chad
+        BigTime Tommie
+        https://youtu.be/TiC8pig6PGE  # Ctrl+D to denote EOF
+        $ cat subdir/favorite_memes.txt
+        doge
+        chad
+        BigTime Tommie
+        https://youtu.be/TiC8pig6PGE
+</pre>
+    </li>
+    <li>
+        <a name="p1">Deleting files.</a>
+While testing the previous part, you probably created lots of files that are now
+cluttering your disk. Let's implement a way to delete those files.
+<p>
+Review how the VFS dentry and inode caches interact with each other using
+the resources given earlier in this assignment. Implement the <span class="icmd">unlink</span>
+and <span class="icmd">evict_inode</span> ops so that you can delete files.
+<p>
+You are not required to implement directory removal in this part,
+that will happen in the next part.
+
+Ensure that you are reclaiming data blocks and EZFS inodes when
+appropriate. To test this, see if you can repeatedly create and remove
+files.
+<pre>
+        for i in {1..10}; do touch {1..14}; rm {1..14}; done
+</pre>
+In a Unix-like operating system, what is the correct behavior if one
+process unlinks a file while another process has the same file open?
+Here's an experiment you can run on ext4 or the EZFS reference
+implementation to find out:
+<ul>
+    <li>Create a file named <span class="icmd">foo</span>.</li>
+    <li>In terminal window A, run <span class="icmd">tail -f foo</span>. This command will open foo,
+        print out all the contents, and wait for more lines to be written.
+    </li>
+    <li>In terminal B, run <span class="icmd">cat > foo</span>. This reads from stdin and outputs
+        the result to <span class="icmd">foo</span>.
+    </li>
+    <li>In terminal C, delete <span class="icmd">foo</span>.</li>
+    <li>Back in terminal B, type some text and press return.</li>
+    <li>The text should appear in terminal A.</li>
+</ul>
+    </li>
+    <li>
+        <a name="p1">Making and removing directories.</a>
+Implement creating new directories. That is, user programs should be able to
+call <span class="icmd">mkdir()</span>. This should be very similar to what you did to support creating regular files. You need to make
+sure that you're setting a size and link count appropriate for a directory, rather than a regular file.
+Hint: consider the link count of the parent directory of the newly
+created directory as well.
+In this part as well as the preceeding ones, you should make sure that whatever robustness tests you did earlier continue to pass.
+<p>
+Implement deleting directories. User programs should be able to call
+<span class="icmd">rmdir()</span> successfully on empty directories. This should be very similar to what you did in the previous part. 
+Take a look at <span class="icmd">simple_rmdir()</span> for some additional directory-specific steps.
+Note that <span class="icmd">simple_empty()</span> is not sufficient to check if a directory is empty
+for our purposes, because the function simply checks the dentry cache to see if a
+directory has children. Can you think of a case where this would
+lead to incorrect behavior?
+<p>
+Here's a sample session:
+<pre>
+        $ ls -alF
+        total 16
+        drwxrwxrwx 3 zzj  zzj  4096 Nov 16 17:22 ./
+        drwxr-xr-x 3 root root 4096 Nov 16 17:23 ../
+        -rw-rw-rw- 1 zzj  zzj    13 Nov 16 17:22 hello.txt
+        drwxrwxrwx 2 zzj  zzj  4096 Nov 16 17:22 subdir/
+        $ mkdir bigtime
+        $ ls -alF
+        total 20
+        drwxrwxrwx 4 zzj  zzj  4096 Nov 16 17:23 ./
+        drwxr-xr-x 3 root root 4096 Nov 16 17:23 ../
+        drwxr-xr-x 2 zzj  zzj  4096 Nov 16 17:23 bigtime/
+        -rw-rw-rw- 1 zzj  zzj    13 Nov 16 17:22 hello.txt
+        drwxrwxrwx 2 zzj  zzj  4096 Nov 16 17:22 subdir/
+        $ cd bigtime
+        $ touch tommie
+        $ ls -alF
+        total 8
+        drwxr-xr-x 2 zzj zzj 4096 Nov 16 17:24 ./
+        drwxrwxrwx 4 zzj zzj 4096 Nov 16 17:23 ../
+        -rw-r--r-- 1 zzj zzj    0 Nov 16 17:24 tommie
+        $ cd ..
+        $ rmdir bigtime
+        rmdir: failed to remove 'bigtime': Directory not empty
+        $ ls -alF
+        total 20
+        drwxrwxrwx 4 zzj  zzj  4096 Nov 16 17:23 ./
+        drwxr-xr-x 3 root root 4096 Nov 16 17:23 ../
+        drwxr-xr-x 2 zzj  zzj  4096 Nov 16 17:24 bigtime/
+        -rw-rw-rw- 1 zzj  zzj    13 Nov 16 17:22 hello.txt
+        drwxrwxrwx 2 zzj  zzj  4096 Nov 16 17:22 subdir/
+        $ rm bigtime/tommie
+        $ rmdir bigtime
+        $ ls -alF
+        total 16
+        drwxrwxrwx 3 zzj  zzj  4096 Nov 16 17:25 ./
+        drwxr-xr-x 3 root root 4096 Nov 16 17:23 ../
+        -rw-rw-rw- 1 zzj  zzj    13 Nov 16 17:22 hello.txt
+        drwxrwxrwx 2 zzj  zzj  4096 Nov 16 17:22 subdir/
+</pre>
+    </li>
+    <li>
+        <a name="p1">Compile and run executable files.</a>
+        Compiling and running executable files requires some additional functionality beyond what you have already implemented, specifically support for 
+        <span class="icmd">mmap</span>.  Given the approach you should have take thus far, implementing <span class="icmd">mmap</span> support should be trivial.  Do it.
+        At this point, you shoud now be able to compile and execute programs.  This part will also double verify that you 
+implemented the functionality of "read/write/fsync", "create/delete" 
+correctly.
+<p>
+Here's a sample session:
+<pre>
+        $ cd /mnt/ez
+        $ vim test.c
+        $ ls
+        hello.txt  subdir  test.c
+        $ cat test.c
+        #include <stdio.h>
+
+        int main() {
+            printf("Hello, World!\n");
+            return 0;
+        }
+        $ gcc test.c
+        $ ls
+        a.out  hello.txt  subdir  test.c
+        $ ./a.out
+        Hello, World!
+</pre>
+You should make sure that whatever robustness tests you did earlier continue to pass with your completed file system.  Try running various programs manipulating the files
+in your file system.  In your README, note which applications you have used, which ones worked, and which ones do not.  What are some file operations supported on your default
+Linux file system that are not supported by EZFS?  Which of these affect the functionality of the programs you ran?
+    </li>
+    </ol>
+</body>
+</html>
